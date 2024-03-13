@@ -1,3 +1,3 @@
-# Adaptive-Window-Pruning-for-Efficient-Local-Motion-Deblurring
+# LMD--ViT
 
 Codes coming soon.
