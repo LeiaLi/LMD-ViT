@@ -119,7 +119,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Single Image Local Motion Deblurring using LMD-ViT')
     parser.add_argument('--input_dir', default='./val_data', type=str, help='Directory of validation images')
-    parser.add_argument('--result_dir', default='/./results', type=str, help='Directory for results')
+    parser.add_argument('--result_dir', default='./results', type=str, help='Directory for results')
     parser.add_argument('--ckpt_path', default='./ckpt/model_LMDVIT.pth', type=str, help='Path to weights')
     parser.add_argument('--dataset', default='ReLoBlur', type=str, help='Test Dataset') # ['GoPro', 'HIDE', 'RealBlur_J', 'RealBlur_R']
     args = parser.parse_args()
