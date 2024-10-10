@@ -220,7 +220,7 @@ def print_details(writer, prefix, global_step, train_pred_score_list, train_deci
             # pdb.set_trace()
             precision  = cal_precision(blur_mask, resizd_d)
             precision_list.append(precision)
-            save_dir = f'/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/{index}_{prune_layer_num}.png'
+            save_dir = f'./logs/visulizationPrune2/{index}_{prune_layer_num}.png'
             resizd_d = resizd_d[0].permute(1, 2, 0).cpu().numpy()
             resizd_d = np.tile(resizd_d, [1,1,3])
             save_img(save_dir,img_as_ubyte(resizd_d))
@@ -228,19 +228,7 @@ def print_details(writer, prefix, global_step, train_pred_score_list, train_deci
             writer.add_image(f'{prefix}_{index} selected tokens at layer_{prune_layer_num} / global step', 
                          print_batch_grid(train_decision_map.cpu()), global_step)
     precision = sum(precision_list)/len(train_decision_list)     
-    '''
-    if prefix=="train":
-        writer.add_image(f'{prefix} restored image / global step', print_batch_grid(restored.cpu()), global_step)
-        writer.add_image(f'{prefix} mask image / global step', print_batch_grid(blur_mask.cpu()), global_step)
-        writer.add_image(f'{prefix} input image / global step', print_batch_grid(input_.cpu()), global_step)
-        writer.add_image(f'{prefix} gt image / global step', print_batch_grid(gt.cpu()), global_step)
-           
-    if prefix=="val":
-        writer.add_image(f'{prefix}_{index} restored image / global step', print_batch_grid(restored.cpu()), global_step)
-        writer.add_image(f'{prefix}_{index} mask image / global step', print_batch_grid(blur_mask.cpu()), global_step)
-        writer.add_image(f'{prefix}_{index} input image / global step', print_batch_grid(input_.cpu()), global_step)
-        writer.add_image(f'{prefix}_{index} gt image / global step', print_batch_grid(gt.cpu()), global_step)
-    '''
+    
     return precision
 def print_batch_grid(batch_cpu_tensor):
     batch_numpy_tensor = batch_cpu_tensor.numpy() * 255
@@ -293,16 +281,11 @@ def print_train_details(writer, global_step, train_pred_score_list, train_decisi
 
         start = time.time()  ###
 
-        # for b in range(batch_size // 12):
-        # for hw in range(pred_score.shape[1]):
-        # writer.add_scalar(f'train pred score_diff 0_{b} at layer_{prune_layer_num} / hw',
-        #                   pred_score[b, hw, 0] - pred_score[b, hw, 1], hw)
-        # writer.add_scalar(f'train pred score_diff 1_{b} at layer_{prune_layer_num} / hw', pred_score_1[b,hw], hw)
+    
         writer.add_image(f'train pred score map0 at layer_{prune_layer_num} / hw', pred_score_map0, global_step)
         writer.add_image(f'train pred score map1 at layer_{prune_layer_num} / hw', pred_score_map1, global_step)
 
-        # writer.add_image(f'train selected tokens at layer_{prune_layer_num} / global step', 
-        #                  print_batch_grid(train_decision_map.cpu()), global_step)
+    
 
         end = time.time()
         print('time:', end - start)
