@@ -1319,8 +1319,6 @@ class LMD(nn.Module):
             pred_score_lists += pred_score_list
             decision_lists += decision_list
         pool0 = self.dowsample_0(conv0)
-        # print(len(decision_list))
-        # save_image(pool0, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/pool0.png')
         
         conv1 = self.encoderlayer_1(pool0, mask=mask)
         if self.prune_loc[1]:
@@ -1328,8 +1326,6 @@ class LMD(nn.Module):
             pred_score_lists += pred_score_list
             decision_lists += decision_list
         pool1 = self.dowsample_1(conv1)
-        # print(len(decision_list))
-        # save_image(pool1, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/pool1.png')
         
         conv2 = self.encoderlayer_2(pool1, mask=mask)
         if self.prune_loc[2]:
@@ -1337,8 +1333,6 @@ class LMD(nn.Module):
             pred_score_lists += pred_score_list
             decision_lists += decision_list
         pool2 = self.dowsample_2(conv2)
-        # print(len(decision_list))
-        # save_image(pool2, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/pool2.png')
         
         conv3 = self.encoderlayer_3(pool2, mask=mask)
         if self.prune_loc[3]:
@@ -1346,18 +1340,14 @@ class LMD(nn.Module):
             pred_score_lists += pred_score_list
             decision_lists += decision_list
         pool3 = self.dowsample_3(conv3)
-        # print(len(decision_list))
-        # save_image(pool3, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/pool3.png')
-
+        
         # Bottleneck
         conv4 = self.conv(pool3, mask=mask)
         if self.prune_loc[4]:
             conv4, pred_score_list, decision_list = conv4
             pred_score_lists += pred_score_list
             decision_lists += decision_list
-        # print(len(decision_list))
-        # save_image(conv4, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/conv4.png')
-        
+       
         # Decoder
         up0 = self.upsample_0(conv4)
         deconv0 = torch.cat([up0, conv3], -1)
@@ -1366,8 +1356,6 @@ class LMD(nn.Module):
             deconv0, pred_score_list, decision_list = deconv0
             pred_score_lists += pred_score_list
             decision_lists += decision_list
-        # print(len(decision_list))
-        # save_image(deconv0, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/deconv0.png')
         
         up1 = self.upsample_1(deconv0)
         deconv1 = torch.cat([up1, conv2], -1)
@@ -1376,9 +1364,7 @@ class LMD(nn.Module):
             deconv1, pred_score_list, decision_list = deconv1
             pred_score_lists += pred_score_list
             decision_lists += decision_list
-        # print(len(decision_list))
-        # save_image(deconv1, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/deconv1.png')
-        
+       
         up2 = self.upsample_2(deconv1)
         deconv2 = torch.cat([up2, conv1], -1)
         deconv2 = self.decoderlayer_2(deconv2, mask=mask)
@@ -1386,8 +1372,6 @@ class LMD(nn.Module):
             deconv2, pred_score_list, decision_list = deconv2
             pred_score_lists += pred_score_list
             decision_lists += decision_list
-        # print(len(decision_list))
-        # save_image(deconv2, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/deconv2.png')
         
         up3 = self.upsample_3(deconv2)
         deconv3 = torch.cat([up3, conv0], -1)
@@ -1396,9 +1380,7 @@ class LMD(nn.Module):
             deconv3, pred_score_list, decision_list = deconv3
             pred_score_lists += pred_score_list
             decision_lists += decision_list
-        # print(len(decision_list))
-        # save_image(deconv3, '/mnt/bn/ailabrenyi/projects/xx/deblur/LMD_ViT0511/logs/visulizationPrune2/deconv3.png')
-        # breakpoint()
+        
         # Output Projection
         y = self.output_proj(deconv3)
         gate_x = y[:, -1:]
