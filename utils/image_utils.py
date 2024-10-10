@@ -90,10 +90,7 @@ class batch_iqa(torch.nn.Module):
         ssim_value = -self.ssim_loss(img1, img2).sum()
         weighted_ssim_value = -self.ssim_loss(img1, img2, mask).sum()
         lpips_value = self.lpips(img1, img2).sum()
-        # if not torch.isnan(img1).any() and  not torch.isnan(img2).any():
-        #     niqe_value = self.niqe(img1, img2).sum()
-        # else:
-        #     niqe_value = torch.tensor(0, dtype=torch.float64).cuda()
+        
         niqe_value = torch.tensor(0, dtype=torch.float64).cuda()
         iqa_list = [psnr_value, weighted_psnr_value, ssim_value, weighted_ssim_value, lpips_value, niqe_value]
         if average:
@@ -146,16 +143,13 @@ def calc_losses(opt, img_p, img_g, blur_mask=None, suffix=''):
     losses_['ssim'] = ssim_loss(img_p, img_g, blur_mask).reshape(B, N_rpt).amin(1)
     losses_['fft'] = fft_loss(img_p, img_g, blur_mask).reshape(B, N_rpt).amin(1)
 
-    # losses_ = {k: getattr(f'{k}_loss')(img_p, img_g, blur_mask).reshape(B, N_rpt).amin(1)
-    #             for k in metric_keys}
+    
     losses_ = {k: v.mean() for k, v in losses_.items() if not torch.isnan(v).any()}
-    # print(losses_)
+
 
     total_loss += sum([v * lamda_dict[f'lambda_{k}'] for k, v in losses_.items()])
 
-    # for k, v in losses_.items():
-    #     losses[f'{k}S'] = v.item()
-    # losses = {f'{k}{suffix}': v for k, v in losses.items()}
+
     return {k: v.item() for k, v in losses_.items()}, total_loss
 
 def cal_prec_accu_reca(blur_mask, pruned_map,index,prune_layer_num):
@@ -167,17 +161,17 @@ def cal_prec_accu_reca(blur_mask, pruned_map,index,prune_layer_num):
     # print('blur_mask0:',blur_mask)
     blur_mask = blur_mask[:,:,(h-1436)//2:(h-1436)//2+1436, (w-2152)//2:(w-2152)//2+2152]
     pruned_map = pruned_map[:,:,(h-1436)//2:(h-1436)//2+1436, (w-2152)//2:(w-2152)//2+2152]
-    # save_img(f'/home/tiger/nfs/xx/deblur/LMD-ViT-NIPS/gopro_sharp_results/visualizations_prune/blur_mask/{index}.png', img_as_ubyte(blur_mask[0].permute(1, 2, 0).cpu().numpy()))
+    
     true_values = blur_mask > 0 # channel=3
 
     true_values_ = true_values[0].repeat(3,1,1)
     true_values_ = true_values_.permute(1, 2, 0).cpu().numpy()
-    # cv2.imwrite(f'/home/tiger/nfs/xx/deblur/LMD-ViT-NIPS/relo_results/visualizations_prune/true_values/{index}_{prune_layer_num}.png',img_as_ubyte(true_values_))
+    
     
     predictions = pruned_map > 0
     predictions_ = predictions[0].repeat(3,1,1)
     predictions_ = predictions_.permute(1, 2, 0).cpu().numpy()
-    # cv2.imwrite(f'/home/tiger/nfs/xx/deblur/LMD-ViT-NIPS/gopro_sharp_results/visualizations_prune/predictions/{index}_{prune_layer_num}.png',img_as_ubyte(predictions_)) #.astype(int)*255
+    
     predictions = predictions.reshape(-1).cpu().numpy()
     N = true_values.shape[0]
 
