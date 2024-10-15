@@ -1,7 +1,9 @@
 # Adaptive-Window-Pruning-for-Efficient-Local-Motion-Deblurring
 
+[Paper](https://arxiv.org/abs/2306.14268) | [Project Page](https://leiali.github.io/LMD-ViT_webpage/)
+
 ## 📢 News
-- **2024.09**
+- **2024.10**
   - Release the model of LMD-ViT. 
   - Release the evaluation code.
 - **2024.04** Release the blur mask annotations of the ReLoBlur dataset.
@@ -23,7 +25,7 @@ Before inferencing LMD-ViT, please install the environment on Linux:
 pip install -U pip
 pip install -r requirements.txt
 ```
-Creat a folder named "ckpt" and another folder named "val_data":
+Create a folder named "ckpt" and another folder named "val_data":
 ```
 cd LMD-ViT
 mkdir ckpt
@@ -31,7 +33,7 @@ mkdir val_data
 ```
 Put the downloaded model in the "ckpt" folder.
 
-Prepare the evaluation data to ".npy" form and put them in the "val_data" folder.
+Prepare the evaluation data in the form of ".npy" and put them in the "val_data" folder.
 
 ### Inference
 
@@ -57,6 +59,3 @@ year={2024},
 url={https://openreview.net/forum?id=hI18CDyadM}
 }
 ```
-
-## 🎫 License
-This project and related weights are released under the [Apache 2.0 license](LICENSE).
