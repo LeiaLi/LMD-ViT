@@ -11,7 +11,7 @@
 - **2023.10** Create this repo.
 
 ## 📷 Data
-The local blur mask annotations are available at this [URL](https://drive.google.com/drive/folders/1cBhtfm7vzsyAr9D6V_LwWJma845rUSlg?usp=sharing)
+The local blur mask annotations are available at this [GoogleCloud URL](https://drive.google.com/drive/folders/1cBhtfm7vzsyAr9D6V_LwWJma845rUSlg?usp=sharing) You can also download them from [Baidu Cloud](https://pan.baidu.com/s/1DIZ59zd3lSL5vIYMoUQaNQ?pwd=vbh9) with code "vbh9".
 
 ## 📏 Model
 The model of LMD-ViT is available at this [URL](https://drive.google.com/drive/folders/1JU2U7fxZkWzNPGhxvzhQmHDmzu0JFLqC?usp=drive_link)
